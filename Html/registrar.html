@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Crie sua conta | QTampa</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="assets/images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+
+    <script>
+
+    
+		function limpa_formulário_cep() {
+				//Limpa valores do formulário de cep.
+				document.getElementById('$rua').value=("");
+				document.getElementById('$bairro').value=("");
+				document.getElementById('$cidade').value=("");
+				document.getElementById('$uf').value=("");
+		}
+	
+		function meu_callback(conteudo) {
+			if (!("erro" in conteudo)) {
+				//Atualiza os campos com os valores.
+				document.getElementById('$rua').value=(conteudo.logradouro);
+				document.getElementById('$bairro').value=(conteudo.bairro);
+				document.getElementById('$cidade').value=(conteudo.localidade);
+				document.getElementById('$uf').value=(conteudo.uf);
+			} //end if.
+			else {
+				//CEP não Encontrado.
+				limpa_formulário_cep();
+				alert("CEP não encontrado.");
+			}
+		}
+			
+		function pesquisacep(valor) {
+	
+			//Nova variável "cep" somente com dígitos.
+			var $cep = valor.replace(/\D/g, '');
+	
+			//Verifica se campo cep possui valor informado.
+			if ($cep != "") {
+	
+				//Expressão regular para validar o CEP.
+				var validacep = /^[0-9]{8}$/;
+	
+				//Valida o formato do CEP.
+				if(validacep.test($cep)) {
+	
+					//Preenche os campos com "..." enquanto consulta webservice.
+					document.getElementById('$rua').value="...";
+					document.getElementById('$bairro').value="...";
+					document.getElementById('$cidade').value="...";
+					document.getElementById('$uf').value="...";
+	
+					//Cria um elemento javascript.
+					var script = document.createElement('script');
+	
+					//Sincroniza com o callback.
+					script.src = '//viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+	
+					//Insere script no documento e carrega o conteúdo.
+					document.body.appendChild(script);
+	
+				} //end if.
+				else {
+					//cep é inválido.
+					limpa_formulário_cep();
+					alert("Formato de CEP inválido.");
+				}
+			} //end if.
+			else {
+				//cep sem valor, limpa formulário.
+				limpa_formulário_cep();
+			}
+		};
+	
+		</script>
+	
+<!--===============================================================================================-->
+</head>
+<body>
+
+	
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url(assets/images/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						Crie sua Conta
+					</span>
+				</div>
+
+				<form class="login100-form validate-form" action="https://api.staticforms.xyz/submit" method="post">
+					<input type="hidden" name="accessKey" value="38cb07cb-798f-4e87-9bc3-57bf72cffdcf">
+					<input type="hidden" name="subject" value="Novo Cadastro - QTAMPA" />
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required" required>
+						<span class="label-input100">Nome</span>
+						<input class="input100" type="text" name="$nomeUsuario" placeholder="Digite o Nome " required>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">CPF</span>
+						<input class="input100" type="text" name="$cpfRegistro" placeholder="Digite seu CPF" maxlength="14"  required onkeydown="javascript: fMasc( this, mCPF );">
+						<span class="focus-input100"></span>
+                    </div>
+                    
+                    
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">E-mail</span>
+						<input class="input100" type="email" name="$emailRegistro" placeholder="Digite seu E-mail" required>
+						<span class="focus-input100"></span>
+					</div>
+                    
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">CEP</span>
+						<input class="input100" type="text" name="$cep" id="$rua" placeholder="Digite seu CEP" required>
+						<span class="focus-input100"></span>
+					</div>
+                    
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Rua</span>
+						<input class="input100" type="text" name="$rua" id="rua" placeholder="Digite o Nome da Rua" required>
+						<span class="focus-input100"></span>
+					</div>
+                    
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Bairro</span>
+						<input class="input100" type="text" name="$bairro" id="bairro" placeholder="Digite o Número" required>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Cidade</span>
+						<input class="input100" type="text" name="$cidade" id="cidade" placeholder="Digite o Nome da Rua" required>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Estado</span>
+						<input class="input100" type="text" name="$uf" id="uf" placeholder="Digite o Nome da Rua" required>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Sensores</span>
+						<input class="input100" type="number" name="$qtdSensores" placeholder="Digite a Quantidade de Sensores" required>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Criar conta
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+	<script src="../assets/js/mascara.js"></script>
+
+</body>
+</html>
